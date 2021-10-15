@@ -1,11 +1,11 @@
 {
-    "name": "gerador_conversas",
-    "short_name": "gerador_conversas",
+    "name": "WhatsLink",
+    "short_name": "WhatsLink",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Um gerador de conversas no Whatsapp",
+    "description": "Um gerador de link e conversas do Whatsapp",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
