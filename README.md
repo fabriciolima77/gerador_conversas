@@ -1,16 +1,20 @@
-# gerador_conversas
+# Gerador de Conversas
 
-Um gerador de conversas no Whatsapp
+Um PWA(Progressive Web App) feito em flutter Web para iniciar conversas no Whatsapp sem adicionar o número aos contatos utilizando a API do Whatsapp.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- [x] Gerar links personalizados de encaminhamento de mensagens para o Whatsapp
+- [x] Iniciar conversas no Whatsapp sem precisar adicionar o número aos contatos
 
-A few resources to get you started if this is your first Flutter project:
+### Como utilizar
+Basta acessar o link do Progressive Web App abaixo:
+- [PWA](https://fabriciolima77.github.io/#/)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### 🛠 Tecnologias
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+As seguintes ferramentas foram usadas na construção do projeto:
+
+- [Dart](https://dart.dev/)
+- [Flutter](https://flutter.dev/)
+- [mask_text_input_formatter: ^2.0.0](https://pub.dev/packages/mask_text_input_formatter)
