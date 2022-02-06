@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
   String phoneIsoCode;
   String _numero;
   String _url = " ";
-  String link = 'https://wa.me/';
+  String link;
   bool _isVisible = false;
 
   @override
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
     double alturaTela = MediaQuery.of(context).size.height;
     double larguraTela = MediaQuery.of(context).size.width;
     var larguraResponsiva = larguraTela < 800 ?
-    larguraTela * 0.8 :
+    larguraTela * 0.9 :
     larguraTela < 1024 ?
     larguraTela * 0.5 : larguraTela * 0.4;
 
@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
           child: Image.asset('assets/images/logo.png',
               fit: BoxFit.contain, width: 256),
         ),
-        backgroundColor: Colors.greenAccent[400],
+        backgroundColor: Color(0xFF25D366),
         elevation: 0,
         actions: <Widget>[
           IconButton(onPressed: _resetField, icon: Icon(Icons.refresh))
@@ -104,13 +104,15 @@ class _HomeState extends State<Home> {
                   width: 400,
                   child: buildElevatedButton("GERAR LINK", _link, 55, 20),
                 ),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
+                SizedBox(height: 20.0),
+                Container(
+                  width: larguraTela * 0.5,
                   child: Visibility(
                     visible: _isVisible,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    child: Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 10,
+                        runSpacing: 20,
                         children: [
                           SelectableText(
                             _url,
@@ -124,15 +126,22 @@ class _HomeState extends State<Home> {
                                 paste: false),
                           ),
                           ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Color(0xFF25D366)),
                               onPressed: (){
                                 Clipboard.setData(new ClipboardData(text: _url));
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    new SnackBar(content: new Text("Link copiado para Área de Transferência"),
-                                    ));
+                                    buildSnackBar(width: larguraTela * 0.3));
                               },
-                              child: Icon(Icons.copy),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.greenAccent[400]))
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text("Copiar Link"),
+                                  SizedBox(width: 10),
+                                  Icon(Icons.copy),
+                                ],
+                              ),
+                          ),
                         ]),
                   )
                 ),
@@ -149,6 +158,7 @@ class _HomeState extends State<Home> {
     _numero = "";
     setState(() {
       _formKey = GlobalKey<FormState>();
+      _isVisible = false;
     });
   }
 
@@ -163,9 +173,10 @@ class _HomeState extends State<Home> {
   void _iniciaConversa() async {
 
     if (msgController.text.isEmpty) {
-      _url = 'https://wa.me/$_numero';
+      _url = 'https://api.whatsapp.com/send/?phone=${Uri.encodeFull(_numero)}&app_absent=0';
     } else {
-      _url = 'https://wa.me/$_numero?text=${msgController.text.replaceAll(" ", "%20")}';
+      _url =
+      'https://api.whatsapp.com/send/?phone=${Uri.encodeFull(_numero)}&text=${Uri.encodeFull(msgController.text)}&app_absent=0';
     }
 
     if (await canLaunch(_url)) {
@@ -178,9 +189,9 @@ class _HomeState extends State<Home> {
   void _link() async {
 
     if (msgController.text.isEmpty) {
-      link = 'https://wa.me/$_numero';
+      link = 'https://api.whatsapp.com/send/?phone=${Uri.encodeFull(_numero)}&app_absent=0';
     } else {
-      link = 'https://wa.me/$_numero?text=${msgController.text.replaceAll(" ", "%20")}';
+      link = 'https://api.whatsapp.com/send/?phone=${Uri.encodeFull(_numero)}&text=${Uri.encodeFull(msgController.text)}&app_absent=0';
     }
     setState(() {
       _url = link;
@@ -218,12 +229,32 @@ Widget buildElevatedButton(String text, Function f, double h, double v) {
     onPressed: f,
     child: Text("$text"),
     style: ElevatedButton.styleFrom(
-      primary: Colors.greenAccent[400],
+      primary:  Color(0xFF25D366),
       padding: EdgeInsets.symmetric(horizontal: h, vertical: v),
       textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-          side: BorderSide(color: Colors.greenAccent[400])),
+          borderRadius: BorderRadius.circular(8.0),
+          side: BorderSide(color:  Color(0xFF25D366))),
     ),
+  );
+}
+
+Widget buildSnackBar({double width}){
+  return SnackBar(
+      content: Text(
+        "Link copiado para a Área de Transferência.",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF0F644D),
+        ),
+      ),
+    duration: const Duration(milliseconds: 1500),
+    behavior: SnackBarBehavior.floating,
+    width: width,
+    backgroundColor: Colors.white,
+    shape: OutlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFF0F644D)),
+      borderRadius: BorderRadius.circular(10.0)
+    )
   );
 }
